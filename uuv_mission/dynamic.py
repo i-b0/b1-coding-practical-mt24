@@ -3,6 +3,8 @@ from dataclasses import dataclass
 import numpy as np
 import matplotlib.pyplot as plt
 from .terrain import generate_reference_and_limits
+import pandas as pd
+from pathlib import Path
 
 class Submarine:
     def __init__(self):
@@ -74,9 +76,20 @@ class Mission:
         return cls(reference, cave_height, cave_depth)
 
     @classmethod
-    def from_csv(cls, file_name: str):
+    def from_csv(cls, file_name: str = "mission.csv"):
+        # Build a full path relative to thje repo root
+        repo_root = Path(__file__).resolve().parents[1]
+        path = repo_root / file_name
         # You are required to implement this method
+        # Read mission.csv and extract reference, cave_height, cave_depth
+        df = pd.read_csv(file_name)
+        reference = df['reference'].to_numpy()
+        cave_height = df['cave_height'].to_numpy()
+        cave_depth = df['cave_depth'].to_numpy()
+        # Return a mission instance
+        return cls(reference, cave_height, cave_depth)
         pass
+
 
 
 class ClosedLoop:
