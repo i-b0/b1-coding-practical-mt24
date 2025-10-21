@@ -1,3 +1,21 @@
 .DS_Store
 .vscode/
 __pycache__/
+
+# Virtual environments
+venv/
+.venv/
+.venvs/
+ENV/
+env/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# OS / editor files
+.DS_Store
+.vscode/
