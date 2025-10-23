@@ -76,13 +76,17 @@ class Mission:
         return cls(reference, cave_height, cave_depth)
 
     @classmethod
-    def from_csv(cls, file_name: str = "mission.csv"):
+    def from_csv(cls, file_name: str = "data/mission.csv"):
         # Build a full path relative to thje repo root
         repo_root = Path(__file__).resolve().parents[1]
         path = repo_root / file_name
         # You are required to implement this method
         # Read mission.csv and extract reference, cave_height, cave_depth
-        df = pd.read_csv(file_name)
+
+        repo_root = Path(__file__).resolve().parents[1]
+        path = repo_root / file_name
+        df = pd.read_csv(path)
+
         reference = df['reference'].to_numpy()
         cave_height = df['cave_height'].to_numpy()
         cave_depth = df['cave_depth'].to_numpy()
@@ -111,6 +115,8 @@ class ClosedLoop:
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
             # Call your controller here
+            # Compute the control action using the controller from uuv_mission/control.py
+            u_t = self.controller.compute_control(mission.reference[t], observation_t)
             self.plant.transition(actions[t], disturbances[t])
 
         return Trajectory(positions)
